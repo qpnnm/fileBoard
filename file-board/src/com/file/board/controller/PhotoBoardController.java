@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.file.board.service.PhotoBoardService;
+import com.file.board.vo.PageVO;
 import com.file.board.vo.PhotoBoardVO;
 
 @Controller
@@ -19,8 +20,12 @@ public class PhotoBoardController {
 	@Autowired
 	private PhotoBoardService pbService;
 	@RequestMapping(value="/photo/list",method=RequestMethod.GET)
-	public String goList(Model model) {
-		model.addAttribute("pbList",pbService.selectPhotoBoardList(null));
+	public String goList(@ModelAttribute PhotoBoardVO pb,Model model) {
+		if(pb.getPage()==null) {
+			pb.setPage(new PageVO());
+			pb.getPage().setPageNum(1);
+		}
+		pbService.selectPhotoBoardList(pb, model);
 		return "photo/list";
 	}
 	

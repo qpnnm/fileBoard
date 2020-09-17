@@ -14,7 +14,6 @@ import com.file.board.vo.PhotoBoardVO;
 @Repository
 public class PhotoBoardDAOImpl implements PhotoBoardDAO {
 
-
 	@Autowired
 	private SqlSessionFactory ssf;
 
@@ -28,13 +27,17 @@ public class PhotoBoardDAOImpl implements PhotoBoardDAO {
 
 	@Override
 	public List<PhotoBoardVO> selectPhotoBoardList(PhotoBoardVO pb) {
-		try(SqlSession ss = ssf.openSession()){
-			return ss.selectList("photoBoard.selectPhotoBoardList",pb);
+		try (SqlSession ss = ssf.openSession()) {
+			return ss.selectList("photoBoard.selectPhotoBoardList", pb);
 		}
 	}
 
+	@Override
+	public int selectPhotoBoardCount(PhotoBoardVO pb) {
+		try (SqlSession ss = ssf.openSession()) {
 
-
-
+			return ss.selectOne("photoBoard.selectPhotoBoardCount", pb);
+		}
+	}
 
 }

@@ -28,11 +28,21 @@
 		)
 	</insert>
 
-	<select id="selectPhotoBoardList" resultType="pb">
+	<select id="selectPhotoBoardList" resultType="pb"
+		parameterType="pb">
 		<!-- <include refid="photoBoardCol" /> -->
-		select
-		pb_num,pb_title,pb_content,pb_photo_name,pb_photo_path,credat,cretim
-		from photo_board
+		select * FROM(select rownum rcnt,pb.* FROM(select * from photo_board
+		order by pb_num desc) pb 
+		where ROWNUM&lt;=#{page.endNum})
+		where rcnt&gt;=#{page.startNum}
 
 	</select>
+
+
+	<select id="selectPhotoBoardCount" resultType="int">
+
+		select count(1)
+		from photo_board
+	</select>
+
 </mapper>

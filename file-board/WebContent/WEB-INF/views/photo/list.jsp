@@ -13,10 +13,9 @@ h2 {
 button {
 	float: right;
 }
+
 td {
-
-color:link;
-
+	color: link;
 }
 </style>
 <jsp:include page="/WEB-INF/views/head.jsp"></jsp:include>
@@ -64,8 +63,31 @@ color:link;
 			</c:if>
 		</tbody>
 
-	</table>
 
+	</table>
+	<div>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center">
+				<li class="page-item disabled"><a class="page-link" href="#"
+					tabindex="-1" aria-disabled="true">Previous</a></li>
+				<c:forEach begin="${page.startBlock}" end="${page.endBlock}"
+					var="idx">
+
+					<li class="page-item"><a class="page-link"
+						href="/photo/list?page.pageNum=${idx}"><c:choose>
+								<c:when test="${idx eq page.pageNum}">
+									<b>${idx}</b>
+								</c:when>
+
+								<c:when test="${idx ne page.pageNum}">${idx}</c:when>
+							</c:choose> </a></li>
+
+				</c:forEach>
+				<li class="page-item"><a class="page-link"
+					href="/photo/list?page.pageNum=${page.pageNum+1}">Next</a></li>
+			</ul>
+		</nav>
+	</div>
 	<a href="/photo/write"><button class="btn btn-primary ">글쓰기</button></a>
 </body>
 </html>
