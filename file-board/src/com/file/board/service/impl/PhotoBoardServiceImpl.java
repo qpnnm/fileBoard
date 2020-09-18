@@ -15,7 +15,7 @@ import com.file.board.vo.PhotoBoardVO;
 
 @Service
 public class PhotoBoardServiceImpl implements PhotoBoardService {
-	private final String uploadPath = "C:\\java_study\\workspace\\file-board\\WebContent\\resources\\";
+	private final String uploadPath = "C:\\Users\\Administrator\\git\\repository\\file-board\\WebContent\\resources\\";
 	@Autowired
 	PhotoBoardDAO photoBoardDAO;
 
@@ -62,6 +62,30 @@ public class PhotoBoardServiceImpl implements PhotoBoardService {
 		model.addAttribute("pbList", photoBoardDAO.selectPhotoBoardList(pb));
 
 		return null;
+	}
+
+	@Override
+	public int deletePhotoBoard(int[] pbNums) {
+
+		List<PhotoBoardVO> pbList = photoBoardDAO.selectPhotoBoardForDelete(pbNums);
+		if (!pbList.isEmpty()) {
+			for (PhotoBoardVO pb : pbList) {
+				String fileName = pb.getPbPhotoPath();
+				File f = new File(uploadPath + fileName);
+				if (f.exists()) {
+					f.delete();
+					
+				}
+			}
+		}
+
+		return photoBoardDAO.deletePhotoBoard(pbNums);
+	}
+
+	@Override
+	public int updatePhotoBoard(MultipartFile file, PhotoBoardVO pb) {
+		
+		return 0;
 	}
 
 }

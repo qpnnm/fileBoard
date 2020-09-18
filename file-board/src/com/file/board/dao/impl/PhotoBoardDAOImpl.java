@@ -40,4 +40,30 @@ public class PhotoBoardDAOImpl implements PhotoBoardDAO {
 		}
 	}
 
+	@Override
+	public int deletePhotoBoard(int[] pbNums) {
+		try (SqlSession ss = ssf.openSession()) {
+			int cnt = 0;
+			for (int pbNum : pbNums) {
+				cnt += ss.delete("photoBoard.deletePhotoBoard", pbNum);
+			}
+			return cnt;
+		}
+	}
+
+	@Override
+	public List<PhotoBoardVO> selectPhotoBoardForDelete(int[] pbNums) {
+		try (SqlSession ss = ssf.openSession()) {
+			return ss.selectList("photoBoard.selectPhotoBoardForDelete", pbNums);
+		}
+	}
+
+	@Override
+	public int updatePhotoBoard(MultipartFile file, PhotoBoardVO pb) {
+
+		try (SqlSession ss = ssf.openSession()) {
+			return ss.update("photoBoard.updatePhotoBoard", pb);
+		}
+	}
+
 }

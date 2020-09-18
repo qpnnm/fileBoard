@@ -8,7 +8,14 @@ import com.file.board.vo.PhotoBoardVO;
 
 public interface PhotoBoardDAO {
 	int insertPhotoBoard(MultipartFile file, PhotoBoardVO pb);
+
 	List<PhotoBoardVO> selectPhotoBoardList(PhotoBoardVO pb);
-	
+
 	int selectPhotoBoardCount(PhotoBoardVO pb);
+
+	int deletePhotoBoard(int[] pbNums);
+
+	List<PhotoBoardVO> selectPhotoBoardForDelete(int[] pbNums);
+
+	int updatePhotoBoard(MultipartFile file, PhotoBoardVO pb);
 }

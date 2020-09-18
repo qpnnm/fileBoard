@@ -15,29 +15,42 @@ import com.file.board.vo.PhotoBoardVO;
 
 @Controller
 public class PhotoBoardController {
-	
-	
+
 	@Autowired
 	private PhotoBoardService pbService;
-	@RequestMapping(value="/photo/list",method=RequestMethod.GET)
-	public String goList(@ModelAttribute PhotoBoardVO pb,Model model) {
-		if(pb.getPage()==null) {
+
+	@RequestMapping(value = "/photo/list", method = RequestMethod.GET)
+	public String goList(@ModelAttribute PhotoBoardVO pb, Model model) {
+		if (pb.getPage() == null) {
 			pb.setPage(new PageVO());
 			pb.getPage().setPageNum(1);
 		}
 		pbService.selectPhotoBoardList(pb, model);
 		return "photo/list";
 	}
-	
-	@RequestMapping(value="/photo/write",method=RequestMethod.GET )
+
+	@RequestMapping(value = "/photo/write", method = RequestMethod.GET)
 	public String goWrtie() {
 		return "photo/write";
 	}
-	
-	@RequestMapping(value="/photo/write",method=RequestMethod.POST)
-	public String doWrtie(@RequestParam("pbFile") MultipartFile file, @ModelAttribute PhotoBoardVO pb) {
-		System.out.println(file.getSize()/1024+"kb");
+
+	@RequestMapping(value = "/photo/write", method = RequestMethod.POST)
+	public String doWrite(@RequestParam("pbFile") MultipartFile file, @ModelAttribute PhotoBoardVO pb) {
+		System.out.println(file.getSize() / 1024 + "kb");
 		pbService.insertPhotoBoard(file, pb);
+		return "redirect:/photo/list";
+	}
+
+	@RequestMapping(value = "/photo/delete", method = RequestMethod.POST)
+	public String delete(@RequestParam("pbNums") int[] pbNums) {
+		pbService.deletePhotoBoard(pbNums);
+
+		return "redirect:/photo/list?page.pageNum=1";
+	}
+
+	@RequestMapping(value = "/photo/update", method = RequestMethod.POST)
+	public String update(@RequestParam("pbFile") MultipartFile file, @ModelAttribute PhotoBoardVO pb) {
+		pbService.updatePhotoBoard(file, pb);
 		return "redirect:/photo/list";
 	}
 }
